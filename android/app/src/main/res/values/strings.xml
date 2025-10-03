@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">tms-dashboard</string>
+    <string name="title_activity_main">tms-dashboard</string>
+    <string name="package_name">com.taufan.tmsdashboard</string>
+    <string name="custom_url_scheme">com.taufan.tmsdashboard</string>
+</resources>
