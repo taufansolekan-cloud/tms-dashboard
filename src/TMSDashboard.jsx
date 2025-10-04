@@ -99,7 +99,7 @@ export default function TMSDashboard() {
       className="h-screen flex flex-col bg-gray-50"
       style={{
         // ruang aman status bar + bottom nav (tanpa ubah layout-mu)
-        paddingTop: "calc(env(safe-area-inset-top, 0px) + 24px)",
+        paddingTop: "calc(env(safe-area-inset-top, 0px)",
         paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 84px)",
       }}
     >
