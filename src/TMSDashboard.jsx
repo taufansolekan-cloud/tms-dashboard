@@ -61,14 +61,13 @@ export default function TMSDashboard() {
     day: "numeric",
   });
 
-  // 🔹 Tambahin fungsi Clock In & Clock Out
+  // Clock In & Clock Out
   const handleClockIn = () => {
     setAttendance((prev) => [
       ...prev,
       { type: "Clock In", time: new Date().toLocaleTimeString("id-ID") },
     ]);
   };
-
   const handleClockOut = () => {
     setAttendance((prev) => [
       ...prev,
@@ -77,165 +76,178 @@ export default function TMSDashboard() {
   };
 
   return (
-    <div className="min-h-screen relative pb-40 bg-gray-50">
-      <div className="relative z-10 p-3">
-        {/* HEADER */}
-        <Card className="mb-4">
-          <CardBody className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg bg-sky-200 flex items-center justify-center overflow-hidden">
-                {logoOk ? (
-                  <img
-                    src={LOGO_SRC}
-                    alt="Frex Logo"
-                    className="w-full h-full object-contain"
-                    onError={() => setLogoOk(false)}
-                  />
-                ) : (
-                  <span className="text-sky-700 font-bold text-xs">Fr-ex</span>
-                )}
-              </div>
-              <div>
-                <h2 className="text-base font-bold text-sky-700 leading-tight">
-                  Halo, {data.userName}
-                </h2>
-                <p className="text-[11px] text-gray-500">
-                  Fresh Express • v{data.appVersion}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
-                {avatarOk ? (
-                  <img
-                    src={PROFILE_SRC}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                    onError={() => setAvatarOk(false)}
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    👤
-                  </div>
-                )}
-              </div>
-              <div className="p-2 rounded-full bg-sky-100 text-sky-700">
-                <Bell size={18} />
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-
-        {/* Rating */}
-        <Card className="mb-3">
-          <CardBody>
-            <div className="flex items-center justify-between mb-2">
-              <div>
-                <p className="text-xs text-gray-500">Rating Ketepatan Waktu</p>
-                <div className="flex items-center gap-1 mt-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      size={14}
-                      className={
-                        i < rating
-                          ? "fill-yellow-400 text-yellow-400"
-                          : "text-gray-300"
-                      }
+    <div
+      className="h-screen flex flex-col bg-gray-50"
+      style={{
+        paddingTop: "calc(env(safe-area-inset-top, 20px))",
+        paddingBottom: "calc(env(safe-area-inset-bottom, 20px))",
+      }}
+    >
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="p-3">
+          {/* HEADER */}
+          <Card className="mb-4">
+            <CardBody className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-lg bg-sky-200 flex items-center justify-center overflow-hidden">
+                  {logoOk ? (
+                    <img
+                      src={LOGO_SRC}
+                      alt="Frex Logo"
+                      className="w-full h-full object-contain"
+                      onError={() => setLogoOk(false)}
                     />
-                  ))}
+                  ) : (
+                    <span className="text-sky-700 font-bold text-xs">Fr-ex</span>
+                  )}
+                </div>
+                <div>
+                  <h2 className="text-base font-bold text-sky-700 leading-tight">
+                    Halo, {data.userName}
+                  </h2>
+                  <p className="text-[11px] text-gray-500">
+                    Fresh Express • v{data.appVersion}
+                  </p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-[11px] text-gray-500">Ontime / Late</p>
-                <p className="text-sm font-semibold text-sky-800">
-                  {data.ontimeTrips} / {data.lateTrips}
-                </p>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
+                  {avatarOk ? (
+                    <img
+                      src={PROFILE_SRC}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                      onError={() => setAvatarOk(false)}
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      👤
+                    </div>
+                  )}
+                </div>
+                <div className="p-2 rounded-full bg-sky-100 text-sky-700">
+                  <Bell size={18} />
+                </div>
               </div>
-            </div>
-            <div className="w-full h-2 bg-gray-200 rounded-full">
-              <div
-                className="h-2 bg-sky-500"
-                style={{ width: `${ontimePct}%` }}
-              />
-            </div>
-            <div className="flex justify-between text-[11px] text-gray-500 mt-1">
-              <span>{ontimePct}% ontime</span>
-              <span>{latePct}% late</span>
-            </div>
-          </CardBody>
-        </Card>
+            </CardBody>
+          </Card>
 
-        {/* Map fullscreen */}
+          {/* RATING */}
+          <Card className="mb-3">
+            <CardBody>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="text-xs text-gray-500">Rating Ketepatan Waktu</p>
+                  <div className="flex items-center gap-1 mt-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        size={14}
+                        className={
+                          i < rating
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "text-gray-300"
+                        }
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-[11px] text-gray-500">Ontime / Late</p>
+                  <p className="text-sm font-semibold text-sky-800">
+                    {data.ontimeTrips} / {data.lateTrips}
+                  </p>
+                </div>
+              </div>
+              <div className="w-full h-2 bg-gray-200 rounded-full">
+                <div
+                  className="h-2 bg-sky-500"
+                  style={{ width: `${ontimePct}%` }}
+                />
+              </div>
+              <div className="flex justify-between text-[11px] text-gray-500 mt-1">
+                <span>{ontimePct}% ontime</span>
+                <span>{latePct}% late</span>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+
+        {/* MAP (flex-1 biar full sisa layar) */}
         {currentPage === "home" && (
-          <Card className="mb-4">
-            <CardBody className="p-0">
-              <div className="w-full h-[calc(100vh-300px)] overflow-hidden border">
+          <div className="flex-1 px-3 pb-3">
+            <Card className="h-full">
+              <CardBody className="p-0 h-full">
                 <iframe
                   title="Lokasi Kendaraan"
                   src="https://maps.google.com/maps?width=600&height=400&hl=en&q=fresh%20factory&t=&z=14&ie=UTF8&iwloc=B&output=embed"
-                  className="w-full h-full border-0"
+                  className="w-full h-full border-0 rounded-lg"
                   loading="lazy"
                   allowFullScreen
                 ></iframe>
-              </div>
-            </CardBody>
-          </Card>
+              </CardBody>
+            </Card>
+          </div>
         )}
 
-        {/* Absensi */}
+        {/* ABSENSI */}
         {currentPage === "absensi" && (
-          <Card>
-            <CardBody>
-              <h3 className="text-lg font-bold text-sky-700 mb-2">Absensi</h3>
-              <p className="text-sm text-gray-500 mb-3">{today}</p>
-              <div className="flex gap-3 mb-3">
-                <button
-                  onClick={handleClockIn}
-                  className="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
-                >
-                  Clock In
-                </button>
-                <button
-                  onClick={handleClockOut}
-                  className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
-                >
-                  Clock Out
-                </button>
-              </div>
-              <ul className="space-y-1">
-                {attendance.map((a, idx) => (
-                  <li key={idx} className="text-sm">
-                    <Clock size={14} className="inline mr-1 text-sky-600" />
-                    {a.type} • {a.time}
-                  </li>
-                ))}
-              </ul>
-            </CardBody>
-          </Card>
+          <div className="p-3 flex-1 overflow-auto">
+            <Card>
+              <CardBody>
+                <h3 className="text-lg font-bold text-sky-700 mb-2">Absensi</h3>
+                <p className="text-sm text-gray-500 mb-3">{today}</p>
+                <div className="flex gap-3 mb-3">
+                  <button
+                    onClick={handleClockIn}
+                    className="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
+                  >
+                    Clock In
+                  </button>
+                  <button
+                    onClick={handleClockOut}
+                    className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
+                  >
+                    Clock Out
+                  </button>
+                </div>
+                <ul className="space-y-1">
+                  {attendance.map((a, idx) => (
+                    <li key={idx} className="text-sm">
+                      <Clock size={14} className="inline mr-1 text-sky-600" />
+                      {a.type} • {a.time}
+                    </li>
+                  ))}
+                </ul>
+              </CardBody>
+            </Card>
+          </div>
         )}
 
         {/* POD */}
         {currentPage === "pod" && (
-          <Card>
-            <CardBody>
-              <h3 className="text-lg font-bold text-sky-700 mb-3">POD</h3>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="bg-blue-600 text-white rounded-lg p-3 text-center">
-                  <p className="text-xs font-semibold">POD TOTAL</p>
-                  <p className="text-lg font-bold">{data.approvedTrips}</p>
+          <div className="p-3 flex-1 overflow-auto">
+            <Card>
+              <CardBody>
+                <h3 className="text-lg font-bold text-sky-700 mb-3">POD</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="bg-blue-600 text-white rounded-lg p-3 text-center">
+                    <p className="text-xs font-semibold">POD TOTAL</p>
+                    <p className="text-lg font-bold">{data.approvedTrips}</p>
+                  </div>
+                  <div className="bg-blue-600 text-white rounded-lg p-3 text-center">
+                    <p className="text-xs font-semibold">POD DITUNGGU</p>
+                    <p className="text-lg font-bold">{data.pendingTrips}</p>
+                  </div>
+                  <div className="bg-blue-600 text-white rounded-lg p-3 text-center">
+                    <p className="text-xs font-semibold">POD DITERIMA</p>
+                    <p className="text-lg font-bold">{data.finishedTrips}</p>
+                  </div>
                 </div>
-                <div className="bg-blue-600 text-white rounded-lg p-3 text-center">
-                  <p className="text-xs font-semibold">POD DITUNGGU</p>
-                  <p className="text-lg font-bold">{data.pendingTrips}</p>
-                </div>
-                <div className="bg-blue-600 text-white rounded-lg p-3 text-center">
-                  <p className="text-xs font-semibold">POD DITERIMA</p>
-                  <p className="text-lg font-bold">{data.finishedTrips}</p>
-                </div>
-              </div>
-            </CardBody>
-          </Card>
+              </CardBody>
+            </Card>
+          </div>
         )}
 
         {/* Floating Bubble Sidebar */}
@@ -243,11 +255,15 @@ export default function TMSDashboard() {
           <motion.div
             drag
             dragMomentum={false}
-            className="fixed right-3 bottom-28 z-30 flex flex-col items-end gap-2"
+            className="fixed right-3 z-30 flex flex-col items-end gap-2"
+            style={{
+              bottom: "calc(90px + env(safe-area-inset-bottom, 20px))",
+            }}
           >
             <button
               onClick={() => setTripExpanded(!tripExpanded)}
               className="w-12 h-12 rounded-full bg-sky-600 text-white flex items-center justify-center shadow-lg"
+              aria-label="Toggle Trip Bubble"
             >
               <Truck size={20} />
             </button>
@@ -274,8 +290,13 @@ export default function TMSDashboard() {
         )}
       </div>
 
-      {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-md flex justify-around py-3 border-t rounded-t-2xl z-20 safe-area-inset-b">
+      {/* BOTTOM NAV */}
+      <div
+        className="fixed bottom-0 left-0 right-0 bg-white shadow-md flex justify-around py-3 border-t rounded-t-2xl z-20"
+        style={{
+          paddingBottom: "calc(10px + env(safe-area-inset-bottom, 20px))",
+        }}
+      >
         <button className="flex flex-col items-center text-gray-600">
           <span>❗</span>
           <span className="text-xs">Complain</span>
@@ -283,9 +304,7 @@ export default function TMSDashboard() {
         <button
           onClick={() => setCurrentPage("pod")}
           className={`flex flex-col items-center ${
-            currentPage === "pod"
-              ? "text-sky-600 font-semibold"
-              : "text-gray-600"
+            currentPage === "pod" ? "text-sky-600 font-semibold" : "text-gray-600"
           }`}
         >
           <span>📦</span>
@@ -294,9 +313,7 @@ export default function TMSDashboard() {
         <button
           onClick={() => setCurrentPage("home")}
           className={`flex flex-col items-center ${
-            currentPage === "home"
-              ? "text-sky-600 font-semibold"
-              : "text-gray-600"
+            currentPage === "home" ? "text-sky-600 font-semibold" : "text-gray-600"
           }`}
         >
           <span>🏠</span>
@@ -309,9 +326,7 @@ export default function TMSDashboard() {
         <button
           onClick={() => setCurrentPage("absensi")}
           className={`flex flex-col items-center ${
-            currentPage === "absensi"
-              ? "text-sky-600 font-semibold"
-              : "text-gray-600"
+            currentPage === "absensi" ? "text-sky-600 font-semibold" : "text-gray-600"
           }`}
         >
           <span>🗓️</span>
