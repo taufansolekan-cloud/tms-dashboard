@@ -79,7 +79,7 @@ export default function TMSDashboard() {
     <div
       className="h-screen flex flex-col bg-gray-50"
       style={{
-        paddingTop: "calc(env(safe-area-inset-top, 20px))",
+        paddingTop: "calc(env(safe-area-inset-top, 20px))", // 🔹 aman status bar
         paddingBottom: "calc(env(safe-area-inset-bottom, 20px))",
       }}
     >
@@ -269,21 +269,15 @@ export default function TMSDashboard() {
             </button>
             {tripExpanded && (
               <div className="space-y-2">
-                <Card>
-                  <CardBody className="flex items-center gap-2 text-sm">
-                    🚚 Trip Disetujui: {data.approvedTrips}
-                  </CardBody>
-                </Card>
-                <Card>
-                  <CardBody className="flex items-center gap-2 text-sm">
-                    ✅ Trip Selesai: {data.finishedTrips}
-                  </CardBody>
-                </Card>
-                <Card>
-                  <CardBody className="flex items-center gap-2 text-sm">
-                    ⏳ Trip Tertunda: {data.pendingTrips}
-                  </CardBody>
-                </Card>
+                <div className="bg-sky-600 text-white rounded-xl shadow p-2 text-sm">
+                  🚚 Trip Disetujui: {data.approvedTrips}
+                </div>
+                <div className="bg-sky-600 text-white rounded-xl shadow p-2 text-sm">
+                  ✅ Trip Selesai: {data.finishedTrips}
+                </div>
+                <div className="bg-sky-600 text-white rounded-xl shadow p-2 text-sm">
+                  ⏳ Trip Tertunda: {data.pendingTrips}
+                </div>
               </div>
             )}
           </motion.div>
