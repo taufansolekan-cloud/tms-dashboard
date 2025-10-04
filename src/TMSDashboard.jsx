@@ -1,6 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Bell, Truck, Star, Clock } from "lucide-react";
 import { motion } from "framer-motion";
+// NEW: status bar plugin
+import { Capacitor } from "@capacitor/core";
+import { StatusBar, Style } from "@capacitor/status-bar";
 
 const Card = ({ children, className = "", onClick }) => (
   <div
@@ -61,6 +64,22 @@ export default function TMSDashboard() {
     day: "numeric",
   });
 
+  // NEW: pastikan status bar muncul & tidak dioverlay webview (Samsung aman)
+  useEffect(() => {
+    (async () => {
+      try {
+        if (Capacitor.isNativePlatform()) {
+          await StatusBar.setOverlaysWebView({ overlay: false });
+          await StatusBar.setBackgroundColor({ color: "#F3F4F6" }); // tailwind gray-100
+          await StatusBar.setStyle({ style: Style.Dark }); // ikon gelap
+          await StatusBar.show();
+        }
+      } catch (e) {
+        console.warn("StatusBar setup skipped:", e);
+      }
+    })();
+  }, []);
+
   // Clock In & Clock Out
   const handleClockIn = () => {
     setAttendance((prev) => [
@@ -79,7 +98,7 @@ export default function TMSDashboard() {
     <div
       className="h-screen flex flex-col bg-gray-50"
       style={{
-        // 🔹 Tambah 24px supaya status bar Android gak ketiban
+        // ruang aman status bar + bottom nav (tanpa ubah layout-mu)
         paddingTop: "calc(env(safe-area-inset-top, 0px) + 24px)",
         paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 84px)",
       }}
@@ -175,7 +194,7 @@ export default function TMSDashboard() {
           </Card>
         </div>
 
-        {/* MAP (flex-1 biar full sisa layar) */}
+        {/* MAP */}
         {currentPage === "home" && (
           <div className="flex-1 px-3 pb-3">
             <Card className="h-full">
@@ -270,6 +289,7 @@ export default function TMSDashboard() {
             </button>
             {tripExpanded && (
               <div className="space-y-2">
+                {/* NEW: panel biru solid (tidak transparan) */}
                 <div className="bg-sky-600 text-white rounded-xl shadow p-2 text-sm">
                   🚚 Trip Disetujui: {data.approvedTrips}
                 </div>
