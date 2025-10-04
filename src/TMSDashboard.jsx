@@ -79,8 +79,9 @@ export default function TMSDashboard() {
     <div
       className="h-screen flex flex-col bg-gray-50"
       style={{
-        paddingTop: "calc(env(safe-area-inset-top, 20px))", // 🔹 aman status bar
-        paddingBottom: "calc(env(safe-area-inset-bottom, 20px))",
+        // 🔹 Tambah 24px supaya status bar Android gak ketiban
+        paddingTop: "calc(env(safe-area-inset-top, 0px) + 24px)",
+        paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 84px)",
       }}
     >
       {/* MAIN CONTENT */}
